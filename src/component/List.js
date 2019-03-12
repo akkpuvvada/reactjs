@@ -24,13 +24,13 @@ class List extends Component {
         this.state = {
             rows: [],
             equipValue: "",
-            vechId:"",
+            vechId: "",
         };
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount() {
-        
+
     }
 
     rowGetter = (rowNumber) => {
@@ -45,7 +45,26 @@ class List extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        console.log(this.refs.vehicle.value)
+        console.log(this.refs.equipment)
+        //Example for calling API
+        //API call goes here
+        // Where we're fetching data from
+        // if(condition)
+        //    const url = ""
+        // fetch("url")
+        //     // We get the API response and receive data in JSON format...
+        //     .then(response => response.json())
+        //     // ...then we update the users state
+        //     .then(data =>
+        //         this.setState({
+        //            same as below
+        //         })
+        //     )
+
         var responseText = require('../data/response.json');
+        
+        //This map function goes into api response mapping
         tempRows = []
         responseText.map((data) => {
             row = []
@@ -56,26 +75,28 @@ class List extends Component {
             }
             tempRows.push(row)
         })
+        //--Till here
+
         this.setState({ rows: tempRows })
-      }
+    }
 
     render() {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <label>
-                    Equipment:
-                    <input type="text" ref="equipment"/>
-                    </label>    
+                        Equipment:
+                    <input type="text" ref="equipment" />
+                    </label>
 
                     <label>
-                    Vechicle:
-                    <input type="text" ref="vehicle"/>
+                        Vechicle:
+                    <input type="text" ref="vehicle" />
                     </label>
 
                     <input type="submit" value="Submit" />
                 </form>
-                <br/>
+                <br />
                 <ReactDataGrid
                     columns={columns}
                     rowGetter={this.rowGetter}
