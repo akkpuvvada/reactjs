@@ -14,12 +14,12 @@ const columns = [{
     name: 'EquipmentID'
 },
 {
-    key: 'timeStamp',
-    name: 'TimeStamp'
-},
-{
     key: 'vechId',
     name: 'VechicleID'
+},
+{
+    key: 'timeStamp',
+    name: 'TimeStamp'
 }
 ]
 
