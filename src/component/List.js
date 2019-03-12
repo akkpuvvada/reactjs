@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import ReactDataGrid from 'react-data-grid';
+import View from './View';
 
 var row = [];
 var tempRows = [];
+var images = [];
 
 const columns = [{
     key: 'equipId',
@@ -25,8 +27,11 @@ class List extends Component {
             rows: [],
             equipValue: "",
             vechId: "",
+            changeView: -1,
+            imageList: []
         };
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.clickedRow = this.clickedRow.bind(this)
     }
 
     componentDidMount() {
@@ -40,13 +45,15 @@ class List extends Component {
     }
 
     clickedRow = (rowNumber) => {
-        alert("Clicked on row " + this.state.rows[rowNumber].equipId)
+        console.log(images[rowNumber])
+        this.setState({changeView:rowNumber,
+                        imageList:images[rowNumber]})
     }
 
     handleSubmit(event) {
         event.preventDefault();
         console.log(this.refs.vehicle.value)
-        console.log(this.refs.equipment)
+        console.log(this.refs.equipment.value)
         //Example for calling API
         //API call goes here
         // Where we're fetching data from
@@ -74,6 +81,7 @@ class List extends Component {
                 vechId: data.vehicle
             }
             tempRows.push(row)
+            images.push(data.images)
         })
         //--Till here
 
@@ -81,6 +89,13 @@ class List extends Component {
     }
 
     render() {
+        if(this.state.changeView!==-1)
+        {
+            return(
+                <View
+                    images={this.state.imageList}/>
+            )
+        }
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
