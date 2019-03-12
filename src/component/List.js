@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDataGrid from 'react-data-grid';
-import View from './View';
+import ReactBnbGallery from 'react-bnb-gallery'
+
+var path="http://localhost:8000/";
+var galleryImages=[]
 
 var row = [];
 var tempRows = [];
@@ -28,10 +31,12 @@ class List extends Component {
             equipValue: "",
             vechId: "",
             changeView: -1,
-            imageList: []
+            imageList: [],
+            galleryOpened: false
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.clickedRow = this.clickedRow.bind(this)
+        this.toggleGallery = this.toggleGallery.bind(this);        
     }
 
     componentDidMount() {
@@ -45,10 +50,24 @@ class List extends Component {
     }
 
     clickedRow = (rowNumber) => {
-        console.log(images[rowNumber])
-        this.setState({changeView:rowNumber,
-                        imageList:images[rowNumber]})
+        galleryImages=[]
+        images[rowNumber].map(data=>{
+            var temp={
+                photo: path+data,
+                caption: "Road Safety",
+                subcaption: "IDEMIA",
+                thumbanil: path+data
+            }
+            galleryImages.push(temp)
+        })
+       this.toggleGallery()
     }
+    
+    toggleGallery() {
+        this.setState(prevState => ({
+          galleryOpened: !prevState.galleryOpened
+        }));
+      }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -89,15 +108,13 @@ class List extends Component {
     }
 
     render() {
-        if(this.state.changeView!==-1)
-        {
-            return(
-                <View
-                    images={this.state.imageList}/>
-            )
-        }
         return (
             <div>
+                <ReactBnbGallery
+                    show={this.state.galleryOpened}
+                    photos={galleryImages}
+                    onClose={this.toggleGallery} />
+                
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Equipment:
