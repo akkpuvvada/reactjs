@@ -72,19 +72,19 @@ class List extends Component {
     handleSubmit(event) {
         event.preventDefault();
         var url =""
-        if (!(this.refs.equipment.value) && !(this.refs.vehicle.value)) 
+        if ((this.refs.equipment.value==="") && (this.refs.vehicle.value=="")) 
             {
                 url = "http://localhost:5000/incidents"
             }
-        else if ((this.refs.equipment.value) && !(this.refs.vehicle.value)) 
+        else if ((this.refs.equipment.value!=="") && (this.refs.vehicle.value==="")) 
             {
                 url = "http://localhost:5000/incidents?equipment_id=" + this.refs.equipment.value
             }
-        else if (!(this.refs.equipment.value) && (this.refs.vehicle.value)) 
+        else if ((this.refs.equipment.value==="") && (this.refs.vehicle.value!=="")) 
             {
                url = "http://localhost:5000/incidents?vehicle_id=" + this.refs.vehicle.value
             }
-        else if ((this.refs.equipment.value) && (this.refs.vehicle.value)) 
+        else if ((this.refs.equipment.value!=="") && (this.refs.vehicle.value!=="")) 
             {
                 url = "http://localhost:5000/incidents?equipment_id=" + this.refs.equipment.value + "&vehicle_id=" + this.refs.vehicle.value
             }
