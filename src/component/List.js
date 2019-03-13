@@ -72,6 +72,7 @@ class List extends Component {
     handleSubmit(event) {
         event.preventDefault();
         var url =""
+        images=[] //Empties the images everytime
         if ((this.refs.equipment.value==="") && (this.refs.vehicle.value=="")) 
             {
                 url = "http://localhost:5000/incidents"
@@ -88,7 +89,7 @@ class List extends Component {
             {
                 url = "http://localhost:5000/incidents?equipment_id=" + this.refs.equipment.value + "&vehicle_id=" + this.refs.vehicle.value
             }
-        fetch("url")
+        fetch(url)
              .then(response => response.json())
                 // ...then we update the users state
                 .then((findresponse) =>{
@@ -109,6 +110,8 @@ class List extends Component {
                 
             )
             this.setState({ rows: tempRows })
+
+
         // var responseText = require('../data/response.json');
         
         // //This map function goes into api response mapping
