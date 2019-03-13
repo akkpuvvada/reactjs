@@ -71,40 +71,59 @@ class List extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.refs.vehicle.value)
-        console.log(this.refs.equipment.value)
-        //Example for calling API
-        //API call goes here
-        // Where we're fetching data from
-        // if(condition)
-        //    const url = ""
-        // fetch("url")
-        //     // We get the API response and receive data in JSON format...
-        //     .then(response => response.json())
-        //     // ...then we update the users state
-        //     .then(data =>
-        //         this.setState({
-        //            same as below
-        //         })
-        //     )
-
-        var responseText = require('../data/response.json');
-        
-        //This map function goes into api response mapping
-        tempRows = []
-        responseText.map((data) => {
-            row = []
-            row = {
-                equipId: data.equipment,
-                timeStamp: data.time,
-                vechId: data.vehicle
+        var url =""
+        if (!(this.refs.equipment.value) && !(this.refs.vehicle.value)) 
+            {
+                url = "http://localhost:5000/incidents"
             }
-            tempRows.push(row)
-            images.push(data.images)
-        })
-        //--Till here
-
-        this.setState({ rows: tempRows })
+        else if ((this.refs.equipment.value) && !(this.refs.vehicle.value)) 
+            {
+                url = "http://localhost:5000/incidents?equipment_id=" + this.refs.equipment.value
+            }
+        else if (!(this.refs.equipment.value) && (this.refs.vehicle.value)) 
+            {
+               url = "http://localhost:5000/incidents?vehicle_id=" + this.refs.vehicle.value
+            }
+        else if ((this.refs.equipment.value) && (this.refs.vehicle.value)) 
+            {
+                url = "http://localhost:5000/incidents?equipment_id=" + this.refs.equipment.value + "&vehicle_id=" + this.refs.vehicle.value
+            }
+        fetch("url")
+             .then(response => response.json())
+                // ...then we update the users state
+                .then((findresponse) =>{
+                    //This map function goes into api response mapping
+                    tempRows = []
+                    findresponse.map((data) => {
+                        row = []
+                        row = {
+                            equipId: data.equipment,
+                            timeStamp: data.time,
+                            vechId: data.vehicle
+                        }
+                        tempRows.push(row)
+                        images.push(data.images)
+                    })
+                    //--Till here
+                }
+                
+            )
+            this.setState({ rows: tempRows })
+        // var responseText = require('../data/response.json');
+        
+        // //This map function goes into api response mapping
+        // tempRows = []
+        // responseText.map((data) => {
+        //     row = []
+        //     row = {
+        //         equipId: data.equipment,
+        //         timeStamp: data.time,
+        //         vechId: data.vehicle
+        //     }
+        //     tempRows.push(row)
+        //     images.push(data.images)
+        // })
+        // //--Till here
     }
 
     render() {
